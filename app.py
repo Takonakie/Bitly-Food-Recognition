@@ -16,7 +16,7 @@ app.secret_key = "supersecretkey"  # Needed for flashing messages
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # Load model and classes
-model = YOLO('food_detection_model.pt')
+model = YOLO('models/food_detection_model.pt')
 
 class_names = model.model.names
 
