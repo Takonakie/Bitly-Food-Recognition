@@ -5,6 +5,8 @@ from PIL import Image
 import os
 from ultralytics import YOLO
 from werkzeug.utils import secure_filename
+import openai
+import re
 
 # Allowed file extensions
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -14,25 +16,10 @@ app.secret_key = "supersecretkey"  # Needed for flashing messages
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # Load model and classes
-model = YOLO('models/food_detection_model.pt')
+model = YOLO('food_detection_model.pt')
 
-# Hardcoded class names (order must match the training .yaml file)
-class_names = [
-    "baklava", "beignets", "chocolate_cake", "churros", "cup_cakes",
-    "donuts", "ice_cream", "macarons", "red_velvet_cake", "waffles"
-]
-calorie_mapping = {
-    "baklava": [290, "per piece", 430, "per 100g"],
-    "beignets": [250, "per piece", 390, "per 100g"],
-    "chocolate_cake": [370, "per slice", 350, "per 100g"],
-    "churros": [116, "per stick (15cm)", 330, "per 100g"],
-    "cup_cakes": [180, "per cupcake", 305, "per 100g"],
-    "donuts": [452, "per donut", 452, "per 100g"],
-    "ice_cream": [137, "per scoop (1/2 cup)", 207, "per 100g"],
-    "macarons": [70, "per piece", 440, "per 100g"],
-    "red_velvet_cake": [410, "per slice", 370, "per 100g"],
-    "waffles": [218, "per waffle (plain)", 290, "per 100g"]
-}
+class_names = model.model.names
+
 # Check if the file extension is allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -105,12 +92,38 @@ def calculate_calorie():
         label = f"{class_names[class_id]}"
         detections.append(label)
 
-        # Lookup calories from mapping
-        calorie_value1, unit1, calorie_value2, unit2 = calorie_mapping.get(label, ["N/A", "Unknown"])
-        calorie_estimate1 = f"{calorie_value1} kcal"
-        calorie_estimate2 = f"{calorie_value2} kcal"
+        # Bangun prompt ke GPT
+        prompt = f"What is the estimated calorie count for the food item {label}? Explain it in two ways: one per typical serving (e.g., per piece or per scoop), and one per 100 grams. Provide me with only the calorie numbers in two formats: per serving and per 100 grams. Do not include any other text. Format the answer as: '... per piece' for per serving and '... per 100g' for per 100 grams."
 
-    return render_template('estimateshowcalorie.html', image_filename=image_filename, calorie_estimate1=calorie_estimate1, unit1=unit1, calorie_estimate2=calorie_estimate2, unit2=unit2, detections=detections[0])
+        # Panggil OpenAI API
+        client = openai.OpenAI(api_key = "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")
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  # atau "gpt-4" jika kamu punya akses
+            messages=[
+                {"role": "system", "content": "You are a nutritionist."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7
+        )
+
+        # Ambil hasil dari GPT
+        calorie_answer = response.choices[0].message.content
+
+        numbers = re.findall(r'\d+', calorie_answer)
+
+        calorie_answer1 = numbers[0] if len(numbers) > 0 else "N/A"
+        calorie_answer2 = numbers[1] if len(numbers) > 1 else "N/A"
+
+    return render_template(
+        'estimateshowcalorie.html',
+        image_filename=image_filename,
+        detections=detections,
+        calorie_estimate1=calorie_answer1,
+        unit1="per piece",
+        calorie_estimate2=calorie_answer2,
+        unit2="per 100 grams"
+    )
 
 #run normal
 if __name__ == '__main__':
