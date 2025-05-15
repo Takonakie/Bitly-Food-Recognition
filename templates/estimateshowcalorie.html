@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calorie Result</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #e6f3ff;
+      color: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f7f7f7;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000; 
+    }
+
+    .logo-circle {
+      width: 45px;
+      height: 45px;
+      background-color: #ccc;
+      border-radius: 50%;
+      border: 2px solid #0f3b82;
+    }
+
+    .project-name {
+      font-size: 16px;
+      margin-left: 10px;
+      flex-grow: 1;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    main {
+      flex: 1;
+      background-color: #d8f0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 120px;
+    }
+
+    .result-section {
+            padding: 130px 32px;
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            align-items: center;
+        }
+
+        #preview {
+            width: 300px;
+            height: 300px;
+            background-color: #ccc;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        .result-card {
+            background-color: #1e3d7a;
+            border: 3px solid #f4f4f4;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 450px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .result-title {
+            margin-bottom: 8px;
+        }
+
+        .result-divider {
+            align-self: stretch;
+            border: none;
+            border-top: 2px solid #ffffff;
+            margin: 16px 0 12px 0;
+            
+        }
+
+
+        .result-card p {
+            font-size: 12px;
+            margin: 12px 0;
+        }
+
+        .result-card .calorie {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 16px 0;
+        }
+
+    .project-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    .btn {
+      padding: 8px 16px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      cursor: pointer;
+      color: #1e3d7a;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img class="logo-circle" src="{{ url_for('static', filename='images/mascot.jpg') }}">
+    </div>
+    <h1 class="project-name">
+      <a href="{{ url_for('index') }}" class="project-link">Bitly</a>
+    </h1>
+    <nav>
+      <a href="{{ url_for('aboutpage') }}">About</a>
+      <a href="{{ url_for('estimate') }}">Estimate</a>
+      <a href="{{ url_for('chatbot') }}">Chatbot</a>
+    </nav>
+  </header>
+
+
+  <main>
+    <section class="result-section">
+      <div class="image-container">
+        <img id="preview" src="{{ url_for('static', filename='uploads/' + image_filename) }}" alt="Image Preview" />
+      </div>
+      <div class="result-card">
+        <h2>{{ detections }}</h2>
+        <hr class="result-divider" />
+        <p>Calorie Estimation:</p>
+        <div id="calorie">{{ calorie_estimate1 }} {{ unit1 }}</div>
+        <!--<p>*The calorie estimation is based on a 100-gram serving size.</p>-->
+        <p>or</p>
+        <div>{{ calorie_estimate2 }} {{ unit2 }}</div>
+        <a href="{{ url_for('chatbot') }}?food={{ detections }}" class="btn">
+          <button type="button" class="btn">Ask about {{ detections }}</button>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="takeImg.js"></script>
+</body>
+</html>

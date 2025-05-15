@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estimate Description</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #e6f3ff;
+      color: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f7f7f7;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000; 
+    }
+
+    .logo-circle {
+      width: 45px;
+      height: 45px;
+      background-color: #ccc;
+      border-radius: 50%;
+      border: 2px solid #0f3b82;
+    }
+
+    .project-name {
+      font-size: 16px;
+      margin-left: 10px;
+      flex-grow: 1;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    main {
+      flex: 1;
+      background-color: #d8f0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 120px;
+    }
+
+    .estimator-section {
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 130px 32px;
+      gap: 64px;
+      flex-wrap: wrap;
+    }
+
+    #warningBox {
+      display: none;
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+    }
+
+    .warning-content {
+      background-color: #fdf5a6;
+      border: 2px solid #000;
+      border-radius: 16px;
+      padding: 12px 20px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 14px;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 150px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #preview {
+      width: 300px;
+      height: 300px;
+      background-color: #ccc;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+
+    .form-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-area label {
+      font-size: 16px;
+      padding: 4px;
+    }
+
+    .form-area input[type="text"] {
+      padding: 8px;
+      font-size: 10px;
+      border: 2px solid #000;
+      border-radius: 20px;
+      width: 260px;
+      margin: 10px;
+    }
+
+    .form-area .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .form-area button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+
+    .form-area ::placeholder {
+      font-family: 'Press Start 2P', cursive;
+      text-align: left;
+    }
+
+    .form-area .retake {
+      background-color: #b74141;
+      border: none;
+      border-radius: 20px;
+    }
+
+    .form-area .calculate {
+      background-color: #3e7e3e;
+    }
+
+    .project-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img class="logo-circle" src="{{ url_for('static', filename='images/mascot.jpg') }}">
+    </div>
+    <h1 class="project-name">
+      <a href="{{ url_for('index') }}" class="project-link">Project Name</a>
+    </h1>
+    <nav>
+      <a href="{{ url_for('aboutpage') }}">About</a>
+      <a href="{{ url_for('estimate') }}">Estimate</a>
+      <a href="{{ url_for('chatbot') }}">Chatbot</a>
+    </nav>
+  </header>
+
+  <div id="warningBox" style="display: none;"></div>
+
+  <main>
+    <section id="estimate" class="estimator-section">
+      <div style="display: flex; gap: 40px; align-items: center;">
+        <div>
+          <img id="preview" src="{{ url_for('static', filename='uploads/' + image_filename) }}" alt="Image Preview" />
+        </div>
+        <div class="form-area">
+          <form action="{{ url_for('calculate_calorie') }}" method="post">
+            <label for="description">Ready to calculate the calorie?</label>
+            <!--<input type="text" id="description" name="description" placeholder="Enter description" required />-->
+            <input type="hidden" name="image_filename" value="{{ image_filename }}" />
+            <div class="buttons">
+              <a href="{{ url_for('estimate') }}" class="retake" style="text-decoration: none;">
+                <button type="button" class="retake">No, Retake Image</button>
+              </a>
+              <button type="submit" class="calculate">Yes! Calculate Calorie</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="takeImg.js"></script>
+</body>
+</html>

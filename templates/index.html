@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #e6f3ff;
+      color: #1e1e1e;
+      line-height: 1.6;
+      padding-top: 80px;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f7f7f7;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+    }
+
+    .logo-circle {
+      width: 45px;
+      height: 45px;
+      background-color: #ccc;
+      border-radius: 50%;
+      border: 2px solid #033b86;
+    }
+
+    .project-name {
+      font-size: 16px;
+      margin-left: 10px;
+      flex-grow: 1;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .hero {
+      background-color: #033b86;
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-radius: 10px;
+      margin: 2rem;
+      height: 75vh;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 60px;
+    }
+
+    .hero p {
+      font-family: 'Open Sans', cursive;
+      max-width: 1000px;
+      margin: auto;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .section-title {
+      text-align: left;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #033b86;
+      margin-left: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .features {
+      font-family: 'Open Sans', cursive;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .feature {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .feature img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .feature h3 {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .project-link {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img class="logo-circle" src="{{ url_for('static', filename='images/mascot.jpg') }}">
+    </div>
+    <h1 class="project-name">
+      <a href="#" class="project-link">Bitly</a>
+    </h1>
+    <nav>
+      <a href="{{ url_for('aboutpage') }}">About</a>
+      <a href="{{ url_for('estimate') }}">Estimate</a>
+      <a href="{{ url_for('chatbot') }}">Chatbot</a>
+    </nav> 
+  </header>
+
+  <section class="hero">
+    <h1>Snap Your Meal, <br />Know Your Calories Instantly!</h1>
+    <p>
+      Effortless Food Recognition and Calorie Estimation in Seconds.<br /><br />
+      Simply upload a photo of your dessert, and our smart AI model will automatically recognize the dish and estimate its calories — helping you stay on track with your nutrition goals.
+    </p>
+  </section>
+
+  <div class="section-title">How Our Platform Works</div>
+  <section class="features">
+    <div class="feature">
+      <img src="{{ url_for('static', filename='images/camera.jpg') }}" alt="Upload Icon" />
+      <h3>Upload Your Image</h3>
+      <p>Easily upload an existing image from your device.</p>
+    </div>
+    <div class="feature">
+      <img src="{{ url_for('static', filename='images/test tube.jpg') }}" alt="Calorie Estimation Icon" />
+      <h3>Accurate Calorie Estimation</h3>
+      <p>Once your food is recognized, the system calculates an accurate calorie count.</p>
+    </div>
+    <div class="feature">
+      <img src="{{ url_for('static', filename='images/mirror.jpg') }}" alt="AI Icon" />
+      <h3>AI Food Recognition</h3>
+      <p>Our AI model identifies the type of food in the image by analyzing visual features.</p>
+    </div>
+    <div class="feature">
+      <img src="{{ url_for('static', filename='images/dessert.jpg') }}" alt="Desserts Icon" />
+      <h3>Supports Various Desserts</h3>
+      <p>Our app is trained to recognize several desserts from around the world.</p>
+    </div>
+  </section>
+</body>
+</html>
