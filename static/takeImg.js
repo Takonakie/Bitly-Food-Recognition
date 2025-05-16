@@ -6,30 +6,19 @@ function handleImage(input) {
     reader.onload = function (e) {
       const imgData = e.target.result;
       localStorage.setItem('capturedImage', imgData);
-      window.location.href = 'estimatedescription.html'; // Redirect to the preview page
+      window.location.href = 'estimatedescription.html'; // Redirect to preview
     };
     reader.readAsDataURL(file);
   }
 }
 
-// Called on window load of calorie-estimator.html to show the image
-window.onload = function () {
-  const preview = document.getElementById('preview');
-  const image = localStorage.getItem('capturedImage');
-  if (preview && image) {
-    preview.src = image;
-  }
-};
-
-// Triggers camera input on calorie-estimator page (Retake button)
+// Trigger camera input
 function triggerCamera() {
   const cameraInput = document.getElementById('cameraInput');
-  if (cameraInput) {
-    cameraInput.click();
-  }
+  if (cameraInput) cameraInput.click();
 }
 
-// Update image preview if user retakes image
+// Preview image if retaken
 function previewImage(event) {
   const file = event.target.files[0];
   if (file) {
@@ -44,29 +33,28 @@ function previewImage(event) {
   }
 }
 
-function showWarning(message) {
-  const warningBox = document.getElementById("warningBox");
-  warningBox.innerHTML = `
-    <div class="warning-content">
-      <span>${message}</span>
-      <span style="cursor: pointer; font-weight: bold;" onclick="this.parentElement.parentElement.style.display='none'">X</span>
-    </div>
-  `;
-  warningBox.style.display = "block";
-}
+// Show preview image on load
+document.addEventListener("DOMContentLoaded", function () {
+  const preview = document.getElementById('preview');
+  const image = localStorage.getItem('capturedImage');
+  if (preview && image) preview.src = image;
 
-
-
-function goToCaloriePage() {
-  const description = document.getElementById('description').value.trim();
-  if (!description) {
-    showWarning("Must input description.");
-    warningBox.style.display = "block";
-
-    return;
+  const galleryInput = document.getElementById('galleryInput');
+  if (galleryInput) {
+    galleryInput.value = '';
+    galleryInput.addEventListener('change', function () {
+      if (this.files.length > 0) {
+        const uploadForm = document.getElementById('uploadForm');
+        if (uploadForm) uploadForm.submit();
+      }
+    });
   }
-  localStorage.setItem('imageDescription', description); // Optional
-  window.location.href = 'estimateshowcalorie.html';
-}
+});
 
-
+// Reset file input if navigating back
+window.addEventListener('pageshow', function (event) {
+  const input = document.getElementById('galleryInput');
+  if ((event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") && input) {
+    input.value = '';
+  }
+});

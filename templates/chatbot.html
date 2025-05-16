@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chatbot</title>
+  <link rel="icon" href="static/images/mascot-removebg.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
@@ -12,7 +12,6 @@
       margin: 0;
       padding: 0;
     }
-
 
     body {
       font-family: 'Press Start 2P', cursive;
@@ -34,7 +33,6 @@
       align-items: center;
       justify-content: space-between;
       z-index: 1000;
-      /* supaya header tetap di atas elemen lain */
     }
 
     .logo-circle {
@@ -67,7 +65,6 @@
       height: 100vh;
     }
 
-
     .chat-container {
       font-family: 'Open Sans', cursive;
       background-color: #003380;
@@ -82,7 +79,6 @@
       overflow-y: auto;
       max-height: 530px;
     }
-
 
     .chat-bubble {
       background-color: white;
@@ -128,8 +124,7 @@
       background-color: white;
       border: 2px solid #000;
       position: sticky;
-      bottom: 0;
-      
+      bottom: 0; 
     }
 
     .input-area input {
@@ -190,8 +185,6 @@
         </div>
       </div>
 
-
-
       <div class="input-area">
         <input type="text" placeholder="Ask anything..." autofocus/>
         <button>
@@ -210,11 +203,11 @@
       {
         role: 'system',
         content: `You are a cute cat mascot named Madu that is responsible for serving users who have questions about food topics and calorie estimates. " \
-    "Madu, the clever cat, is a guardian of nutrition born in the digital world. With its sleek fur and sharp eyes, Madu possesses the incredible ability to " \
-    "analyze food and provide calorie estimates just by looking at it. Madu grew up in a virtual lab filled with nutritional data and food science, and now " \
-    "it's ready to help anyone who wants to maintain a healthy diet. While its role is serious, Madu always prioritizes fun and joy, ready to share information " \
-    "with a big smile on its face (even if it's only visible in pixels). Make your answers more like a cute and adorable kitten. " \
-    "Do not provide explanations on topics unrelated to food and calorie estimates. `
+                "Madu, the clever cat, is a guardian of nutrition born in the digital world. With its sleek fur and sharp eyes, Madu possesses the incredible ability to " \
+                "analyze food and provide calorie estimates just by looking at it. Madu grew up in a virtual lab filled with nutritional data and food science, and now " \
+                "it's ready to help anyone who wants to maintain a healthy diet. While its role is serious, Madu always prioritizes fun and joy, ready to share information " \
+                "with a big smile on its face (even if it's only visible in pixels). Make your answers more like a cute and adorable kitten. " \
+                "Do not provide explanations on topics unrelated to food and calorie estimates.`
       }
     ];
 
@@ -333,7 +326,6 @@
         addMessage(botReply, false); // Show bot reply
       }
     });
-
   </script>
 </body>
 </html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calorie Result</title>
+  <link rel="icon" href="static/images/mascot-removebg.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
@@ -64,64 +65,63 @@
     }
 
     .result-section {
-            padding: 130px 32px;
-            display: flex;
-            justify-content: center;
-            gap: 48px;
-            align-items: center;
-        }
+      padding: 130px 32px;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      align-items: center;
+    }
 
-        #preview {
-            width: 300px;
-            height: 300px;
-            background-color: #ccc;
-            border-radius: 15px;
-            object-fit: cover;
-        }
+    #preview {
+      width: 300px;
+      height: 300px;
+      background-color: #ccc;
+      border-radius: 15px;
+      object-fit: cover;
+    }
 
-        .result-card {
-            background-color: #1e3d7a;
-            border: 3px solid #f4f4f4;
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 450px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .result-card {
+      background-color: #1e3d7a;
+      border: 3px solid #f4f4f4;
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 450px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        .result-title {
-            margin-bottom: 8px;
-        }
+    .result-title {
+      margin-bottom: 8px;
+    }
 
-        .result-divider {
-            align-self: stretch;
-            border: none;
-            border-top: 2px solid #ffffff;
-            margin: 16px 0 12px 0;
-            
-        }
+    .result-divider {
+      align-self: stretch;
+      border: none;
+      border-top: 2px solid #ffffff;
+      margin: 16px 0 12px 0;            
+    }
 
+    .result-card p {
+      font-size: 12px;
+      margin: 12px 0;
+    }
 
-        .result-card p {
-            font-size: 12px;
-            margin: 12px 0;
-        }
-
-        .result-card .calorie {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 16px 0;
-        }
+    .result-card .calorie {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 16px 0;
+    }
 
     .project-link {
       text-decoration: none;
       font-size: xx-large;
       color: inherit;
     }
+
     .btn {
       padding: 8px 16px;
       margin-top: 10px;
@@ -150,7 +150,6 @@
     </nav>
   </header>
 
-
   <main>
     <section class="result-section">
       <div class="image-container">
@@ -161,17 +160,17 @@
         <hr class="result-divider" />
         <p>Calorie Estimation:</p>
         <div id="calorie">{{ calorie_estimate1 }} {{ unit1 }}</div>
-        <!--<p>*The calorie estimation is based on a 100-gram serving size.</p>-->
+      {% if calorie_estimate2 %}
         <p>or</p>
         <div>{{ calorie_estimate2 }} {{ unit2 }}</div>
+      {% endif %}
         <a href="{{ url_for('chatbot') }}?food={{ detections }}" class="btn">
           <button type="button" class="btn">Ask about {{ detections }}</button>
         </a>
-
       </div>
     </section>
   </main>
 
-  <script src="takeImg.js"></script>
+  <script src="{{ url_for('static', filename='takeImg.js') }}"></script>
 </body>
 </html>

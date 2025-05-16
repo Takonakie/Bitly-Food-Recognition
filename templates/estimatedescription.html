@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Estimate Description</title>
+  <title>Estimate Calorie Detail</title>
+  <link rel="icon" href="static/images/mascot-removebg.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
@@ -151,7 +152,6 @@
       color: #fff;
     }
 
-
     .form-area ::placeholder {
       font-family: 'Press Start 2P', cursive;
       text-align: left;
@@ -171,8 +171,7 @@
       text-decoration: none;
       font-size: xx-large;
       color: inherit;
-    }
-    
+    } 
   </style>
 </head>
 <body>
@@ -201,7 +200,6 @@
         <div class="form-area">
           <form action="{{ url_for('calculate_calorie') }}" method="post">
             <print>Ready to calculate the calorie? <br><br></print>
-            <!--<input type="text" id="description" name="description" placeholder="Enter description" required />-->
             <input type="number" id="weight" name="weight" placeholder="Weight(g)" style="margin-right: 0;" />
             <label for="weight" style="font-size: 10px;">(optional)</label>
             <input type="hidden" name="image_filename" value="{{ image_filename }}" />

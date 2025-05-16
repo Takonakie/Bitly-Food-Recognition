@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estimate</title>
+  <title>Estimate the Calorie</title>
+  <link rel="icon" href="static/images/mascot-removebg.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
@@ -119,12 +120,6 @@
       <h2>Upload your food image</h2>
       <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
         <div class="upload-buttons">
-            <!-- Camera input (for capturing with camera) -->
-            <!--<input type="file" name="image" id="cameraInput" accept="image/*" capture="environment" 
-                  style="display: none;" onchange="document.getElementById('uploadForm').submit();" />
-            <button type="button" onclick="document.getElementById('cameraInput').click();">Take Picture</button>
-        -->
-            <!-- Gallery input (for uploading from gallery) -->
             <input type="file" name="image" id="galleryInput" accept="image/*" 
                   style="display: none;" onchange="document.getElementById('uploadForm').submit();" />
             <button type="button" onclick="document.getElementById('galleryInput').click();">Upload Picture</button>
@@ -133,6 +128,6 @@
     </div>
   </main>
 
-  <script src="takeImg.js"></script>
+  <script src="{{ url_for('static', filename='takeImg.js') }}"></script>
 </body>
 </html>
