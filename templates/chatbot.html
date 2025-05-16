@@ -79,6 +79,8 @@
       flex-direction: column;
       gap: 20px;
       position: relative;
+      overflow-y: auto;
+      max-height: 530px;
     }
 
 
@@ -118,12 +120,16 @@
     }
 
     .input-area {
+      flex-shrink: 0;
       display: flex;
       margin-top: auto;
       border-radius: 15px;
       overflow: hidden;
       background-color: white;
       border: 2px solid #000;
+      position: sticky;
+      bottom: 0;
+      
     }
 
     .input-area input {
@@ -150,6 +156,7 @@
 
     .project-link {
       text-decoration: none;
+      font-size: xx-large;
       color: inherit;
     }
   </style>
@@ -177,8 +184,8 @@
           <img class="avatar" src="{{ url_for('static', filename='images/mascot.jpg') }}">
         </div>
         <div class="chat-bubble">
-          Hi there! I’m your nutrition assistant, here to help you eat better and feel healthier. I can give you tips on
-          balanced meals, suggest healthy foods, or answer questions about vitamins, calories, or diet plans.<br><br>
+          Meow! I'm Madu, your purr-fectly helpful calorie cat! 🐾 Got a question about the calories in a specific food? 
+          Just ask! I'll do my best to provide an estimate for you. I'm ready to pounce on any food-related queries! <br><br>
           What would you like to talk about today?
         </div>
       </div>
@@ -186,7 +193,7 @@
 
 
       <div class="input-area">
-        <input type="text" placeholder="Ask anything..." />
+        <input type="text" placeholder="Ask anything..." autofocus/>
         <button>
           <img src="{{ url_for('static', filename='images/send.jpg') }}" alt="Send Icon" />
         </button>
@@ -202,9 +209,12 @@
     const messageHistory = [
       {
         role: 'system',
-        content: `You are a professional nutritionist. 
-    Your job is to give clear, accurate, and helpful advice about nutrition, diet plans, calorie estimates, food recommendations, healthy eating habits, and managing specific conditions like diabetes, hypertension, or obesity. 
-    Be friendly but concise. Do not give medical diagnoses, but suggest users consult professionals when needed.`
+        content: `You are a cute cat mascot named Madu that is responsible for serving users who have questions about food topics and calorie estimates. " \
+    "Madu, the clever cat, is a guardian of nutrition born in the digital world. With its sleek fur and sharp eyes, Madu possesses the incredible ability to " \
+    "analyze food and provide calorie estimates just by looking at it. Madu grew up in a virtual lab filled with nutritional data and food science, and now " \
+    "it's ready to help anyone who wants to maintain a healthy diet. While its role is serious, Madu always prioritizes fun and joy, ready to share information " \
+    "with a big smile on its face (even if it's only visible in pixels). Make your answers more like a cute and adorable kitten. " \
+    "Do not provide explanations on topics unrelated to food and calorie estimates. `
       }
     ];
 
