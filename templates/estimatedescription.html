@@ -125,6 +125,16 @@
       margin: 10px;
     }
 
+    .form-area input[type="number"] {
+      padding: 12px;
+      font-size: 13px;
+      border: 2px solid #000;
+      border-radius: 20px;
+      width: 160px;
+      margin: 10px;
+      font-family: 'Press Start 2P', cursive;
+    }
+
     .form-area .buttons {
       display: flex;
       gap: 12px;
@@ -190,8 +200,10 @@
         </div>
         <div class="form-area">
           <form action="{{ url_for('calculate_calorie') }}" method="post">
-            <label for="description">Ready to calculate the calorie?</label>
+            <print>Ready to calculate the calorie? <br><br></print>
             <!--<input type="text" id="description" name="description" placeholder="Enter description" required />-->
+            <input type="number" id="weight" name="weight" placeholder="Weight(g)" style="margin-right: 0;" />
+            <label for="weight" style="font-size: 10px;">(optional)</label>
             <input type="hidden" name="image_filename" value="{{ image_filename }}" />
             <div class="buttons">
               <a href="{{ url_for('estimate') }}" class="retake" style="text-decoration: none;">
@@ -204,6 +216,6 @@
       </div>
     </section>
   </main>
-  <script src="takeImg.js"></script>
+  <script src="{{ url_for('static', filename='takeImg.js') }}"></script>
 </body>
 </html>
