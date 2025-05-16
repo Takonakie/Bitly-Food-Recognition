@@ -76,24 +76,51 @@ def estimatedescription():
 def calculate_calorie():
     #description = request.form['description']
     image_filename = request.form['image_filename']
+    weight = request.form.get('weight')
+    weight_value = int(weight) if weight and weight.isdigit() else 0 
 
     # Predict using YOLO model
     image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
     results = model(image_path, save=False)[0]
 
     # Parse predictions
+    best_box = None
+    max_confidence = 0
+
+    for box in results.boxes:
+        confidence = float(box.conf[0])
+        if confidence > max_confidence:
+            max_confidence = confidence
+            best_box = box
+
     detections = []
     calorie_estimate = "Unknown"
 
-    for box in results.boxes:
-        class_id = int(box.cls[0])
-        confidence = float(box.conf[0])
-        #label = f"{class_names[class_id]}: {confidence:.2f}"
+    if best_box:
+        class_id = int(best_box.cls[0])
         label = f"{class_names[class_id]}"
         detections.append(label)
 
-        # Bangun prompt ke GPT
-        prompt = f"What is the estimated calorie count for the food item {label}? Explain it in two ways: one per typical serving (e.g., per piece or per scoop), and one per 100 grams. Provide me with only the calorie numbers in two formats: per serving and per 100 grams. Do not include any other text. Format the answer as: '... per piece' for per serving and '... per 100g' for per 100 grams."
+        if weight_value == 0:
+            prompt = (
+                f"You are a certified nutritionist. Estimate the kilocalories for the food item '{label}' based on the following:\n"
+                f"- Calorie estimate for 1 piece (if average weight is unknown, assume average standard serving)\n"
+                f"- Standardized calorie per 100 grams (based on global food nutrition database)\n\n"
+                f"Output ONLY in this exact format:\n"
+                f"{label} = [kcal_piece] kcal per piece\n"
+                f"{label} = [kcal_100g] kcal per 100g\n\n"
+                f"Do not explain and do not add anything outside of this exact format.\n"
+                f"Your answer must be accurate based on real-world food nutrition data."
+            )
+            unit1 = "per piece"
+        else:
+            prompt = (
+                f"You are a certified nutritionist. Estimate the kilocalories for the food item '{label}' weighing {weight_value} grams."
+                f"Output ONLY in this exact format:\n"
+                f"{label} = [kcal_total] kcal for {weight_value} grams\n"
+                f"Do not explain anything. Your answer must be accurate and based on real-world food nutrition standards."
+            )
+            unit1 = f"for {weight_value}g"
 
         # Panggil OpenAI API
         client = openai.OpenAI(api_key = "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")
@@ -115,15 +142,26 @@ def calculate_calorie():
         calorie_answer1 = numbers[0] if len(numbers) > 0 else "N/A"
         calorie_answer2 = numbers[1] if len(numbers) > 1 else "N/A"
 
-    return render_template(
-        'estimateshowcalorie.html',
-        image_filename=image_filename,
-        detections=detections,
-        calorie_estimate1=calorie_answer1,
-        unit1="per piece",
-        calorie_estimate2=calorie_answer2,
-        unit2="per 100 grams"
-    )
+    if weight_value == 0:
+        return render_template(
+            'estimateshowcalorie.html',
+            image_filename=image_filename,
+            detections=detections,
+            calorie_estimate1=calorie_answer1,
+            unit1="per piece",
+            calorie_estimate2=calorie_answer2,
+            unit2="per 100 grams"
+        )
+    else:
+        return render_template(
+            'estimateshowcalorie.html',
+            image_filename=image_filename,
+            detections=detections,
+            calorie_estimate1=calorie_answer1,
+            unit1=f"Cal for {weight_value} grams",
+            calorie_estimate2=None,
+            unit2=None
+        )
 
 #run normal
 if __name__ == '__main__':
