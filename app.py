@@ -103,7 +103,7 @@ def calculate_calorie():
             )
 
         # OpenAI request
-        client = openai.OpenAI(api_key="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")
+        client = openai.OpenAI(api_key="YOUR_OPENAI_API_KEY")
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
