@@ -1,10 +1,3 @@
-# Bitly-Food-Recognition
-Of course, here is a complete and professional `README.md` draft for your GitHub repository. This is based on the information from your project.
-
-You can copy and paste the text below directly into your `README.md` file.
-
------
-
 # Bitly | Food Recognition & Calorie Estimation
 
 A web application that can identify various food items from an image using a **YOLOv8** object detection model and provide an estimate of the total calories.
